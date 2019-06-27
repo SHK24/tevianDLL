@@ -1,4 +1,4 @@
-#include "loginrequest.h"
+#include "request.h"
 
 LoginRequest::LoginRequest()
 {

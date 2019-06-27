@@ -1,4 +1,4 @@
-#include "detectrequest.h"
+#include "request.h"
 
 DetectRequest::DetectRequest()
 {
