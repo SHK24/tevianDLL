@@ -50,8 +50,8 @@ public:
 
     void responseTimeoutExpired();
     int getResponseStatus(QByteArray replyBody);
+    ~Request();
 signals:
-//    void requestSuccess();
     void requestError(QString errorMessage);
     void statusCode(int code);
     void rawJSON(QByteArray json);
@@ -105,7 +105,7 @@ public:
     void doLogin(QString url, QString email, QString password);               //Выполнить login
     void detect(QString url, QString imagePath, QString token);               //Выполнить распознавание
 
-
+    ~TevianDLL();
 };
 
 #endif // TEVIANDLL_H

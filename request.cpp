@@ -1,4 +1,4 @@
-#include "request.h"
+#include "teviandll.h"
 
 void Request::doRequest(QString url, QStringList requestParameters)
 {
@@ -21,6 +21,12 @@ int Request::getResponseStatus(QByteArray replyBody)
     QMap<QString, QVariant> jsonReply = doc.toVariant().toMap();
 
     return jsonReply["status_code"].toInt();
+}
+
+Request::~Request()
+{
+    delete manager;
+    delete reply;
 }
 
 void Request::responseTimeoutExpired()

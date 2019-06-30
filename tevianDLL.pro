@@ -41,3 +41,6 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+DISTFILES += \
+    CMakeLists.txt

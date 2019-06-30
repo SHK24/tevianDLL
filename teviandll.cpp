@@ -31,3 +31,9 @@ void TevianDLL::detect(QString url, QString imagePath, QString token)
 
     detectReq->doRequest(url, requestParameters);
 }
+
+TevianDLL::~TevianDLL()
+{
+    delete loginReq;
+    delete detectReq;
+}

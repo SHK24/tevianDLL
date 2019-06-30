@@ -1,4 +1,4 @@
-#include "request.h"
+#include "teviandll.h"
 
 DetectRequest::DetectRequest()
 {
