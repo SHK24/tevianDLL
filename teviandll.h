@@ -88,6 +88,7 @@ class DetectRequest : public Request
 public:
     ///Конструктор
     DetectRequest();
+    ~DetectRequest();
 
     ///Метод выполнения запроса: параметры - url-адрес, набор параметров - путь к изображению
     void doRequest(QString url, QStringList requestParameters);
