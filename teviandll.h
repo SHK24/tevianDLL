@@ -105,15 +105,8 @@ class LoginRequest : public Request
 {
     Q_OBJECT
 
-    ///Функция выделения токена из JSON ответа
-    QString getToken(QByteArray replyBody);
-
     ///Переопределенный словарь ошибок
     QMap<int, QString> errorMap;
-signals:
-    ///Сигнал успешного завершения запроса. Передает токен в QString
-    void requestSuccess(QString token);
-
 public:
     ///Конструктор
     LoginRequest();
@@ -139,7 +132,7 @@ extern "C++" class TEVIANDLLSHARED_EXPORT TevianDLL : public QObject
 signals:
 
     ///Сигнал об успешной авторизации
-    void loginSuccess(QString token);
+    void loginSuccess(QByteArray rawJSON);
 
     ///Сигнал об успешном распознавании
     void detectSuccess(QByteArray rawJSON);

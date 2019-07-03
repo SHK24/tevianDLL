@@ -9,7 +9,7 @@ TevianDLL::TevianDLL()
     loginReq = new LoginRequest();
 
     ///Подключение к сигналам запроса login об успешном выполнении и ошибке запроса
-    connect(loginReq, &LoginRequest::requestSuccess, this, &TevianDLL::loginSuccess);
+    connect(loginReq, &LoginRequest::rawJSON, this, &TevianDLL::loginSuccess);
     connect(loginReq, &LoginRequest::requestError, this, &TevianDLL::requestError);
 
     ///Подключение к сигналам запроса detect об успешном выполнении и ошибке запроса

@@ -63,15 +63,4 @@ void LoginRequest::processResponse()
     }
     ///В случае "хорошего" ответа - передать сигнал с сырыми json данными и токеном
     rawJSON(replyBody);
-    requestSuccess(getToken(replyBody));
-}
-
-QString LoginRequest::getToken(QByteArray replyBody)
-{
-    QJsonParseError parseError;
-
-    QJsonDocument doc = QJsonDocument::fromJson(replyBody, &parseError);
-
-    QMap<QString, QVariant> data = doc.toVariant().toMap()["data"].toMap();
-    return data["access_token"].toString();
 }
