@@ -25,8 +25,8 @@ int Request::getResponseStatus(QByteArray replyBody)
 
 Request::~Request()
 {
-    delete manager;
-    delete reply;
+//    delete manager;
+//    delete reply;
 }
 
 void Request::responseTimeoutExpired()
