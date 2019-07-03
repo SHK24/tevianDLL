@@ -31,7 +31,7 @@ Request::~Request()
 
 void Request::responseTimeoutExpired()
 {
-
+    requestError("request timeout");
 }
 
 Request::Request()

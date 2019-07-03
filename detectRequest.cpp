@@ -2,79 +2,79 @@
 
 DetectRequest::DetectRequest()
 {
+    ///Создание указателя на экземпеляр менеджера http-запросов
     manager = new QNetworkAccessManager(this);
+}
+
+DetectRequest::~DetectRequest()
+{
+    delete manager;
 }
 
 void DetectRequest::doRequest(QString url, QStringList requestParameters)
 {
-    QUrl urlt(url);
-    QNetworkRequest request(url);
+    ///Создание запроса
+    QUrl qurl(url);
+    QNetworkRequest request(qurl);
 
+    ///Формирование поля Bearer: Bearer+Token
     QString bearer = "Bearer " + requestParameters[TOKEN];
 
-    QNetworkReply * reply;
-
+    ///Заполнение заголовков
     request.setRawHeader("Content-Type", "image/jpeg");
     request.setRawHeader("Authorization", bearer.toUtf8());
 
 
+    ///Создание экземпляра для чтения файла изображения
     QFile imageFile(requestParameters[IMAGE_PATH]);
 
+    ///Проверка на возможность чтения файла
     if(!imageFile.open(QIODevice::ReadOnly))
     {
+        ///Передача сигнала о неуспешном чтении файла
         cantOpenFile();
         return;
     }
 
+    ///Чтение содержимого файла
     QByteArray imageData = imageFile.readAll();
 
+    ///Заполнение поля заголовка с длиной передаваемых данных
     request.setRawHeader("Content-Length", QString::number(imageFile.size()).toUtf8());
+
+    ///Выполнение post запроса
     reply = manager->post(request, imageData);
 
+    ///Подключение сигналов о приходе ответа или истечении таймера ожидания
     connect(reply, &QNetworkReply::finished,this, &DetectRequest::processResponse);
     connect(&responseTimer, &QTimer::timeout, this, &Request::responseTimeoutExpired);
 
+    ///Запуск таймера
     responseTimer.start(3000);
 }
 
-FaceBox DetectRequest::getFaceBox(QByteArray replyBody)
-{
-    QJsonParseError parseError;
-
-    QJsonDocument doc = QJsonDocument::fromJson(replyBody, &parseError);
-
-    QJsonObject obj = doc.object();
-
-    QMap<QString, QVariant> jsonReply = doc.toVariant().toMap();
-
-    QMap<QString, QVariant> data = doc.toVariant().toMap()["data"].toMap();
-    QMap<QString, QVariant> face_bbox = data["face_bbox"].toMap();
-
-    FaceBox faceBox;
-
-    faceBox.x      = face_bbox["x"].toInt();
-    faceBox.y      = face_bbox["y"].toInt();
-    faceBox.height = face_bbox["height"].toInt();
-    faceBox.width  = face_bbox["width"].toInt();
-
-    return faceBox;
-}
 
 void DetectRequest::processResponse()
 {
+    ///Получение тела ответа от sender
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+
+    ///Чтение содержимого ответа
     QByteArray replyBody = reply->readAll();
 
+    ///Определение кода ответа
     int status_code = getResponseStatus(replyBody);
 
+    ///Передача сигнала о коде ответа
     statusCode(status_code);
 
-
+    ///Если код "плохой" - выдать сигнал и остановить выполнение
     if(status_code != 200)
     {
-        (errorMap.value(status_code));
+        requestError(errorMap.value(status_code));
         return;
     }
+
+    ///В случае "хорошего" ответа - передать сигнал с сырыми json данными
     rawJSON(replyBody);
-    //requestSuccess(getFaceBox(replyBody));
 }
