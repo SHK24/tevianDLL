@@ -15,7 +15,6 @@
 
 #include <QUrl>
 #include <QFile>
-#include <QTimer>
 #include <QObject>
 #include <QVariant>
 #include <QJsonObject>
@@ -45,8 +44,6 @@ protected:
     ///Объект для хранения ответа на запрос
     QNetworkReply * reply;
 
-    ///Таймер ожидания ответа
-    QTimer responseTimer;
 
     ///Словарь расшифровки кодов ответов
     QMap<int, QString> errorMap;
@@ -63,9 +60,6 @@ public:
 
     ///Вирутальный метод для обработки ответа
     virtual void processResponse();
-
-    ///Метод вызывающийся при истечении таймера ожидания ответа
-    void responseTimeoutExpired();
 
     ///Деструктор
     ~Request();

@@ -35,10 +35,9 @@ void LoginRequest::doRequest(QString url, QStringList requestParameters)
 
     ///Подключение сигналов о приходе ответа или истечении таймера ожидания
     connect(reply, &QNetworkReply::finished,this, &LoginRequest::processResponse);
-    connect(&responseTimer, &QTimer::timeout, this, &Request::responseTimeoutExpired);
 
     ///Запуск таймера
-    responseTimer.start(3000);
+    //responseTimer.start(3000);
 }
 
 void LoginRequest::processResponse()

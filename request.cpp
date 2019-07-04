@@ -29,11 +29,6 @@ Request::~Request()
 //    delete reply;
 }
 
-void Request::responseTimeoutExpired()
-{
-    requestError("request timeout");
-}
-
 Request::Request()
 {
     errorMap.insert(400, "error detected in request");
